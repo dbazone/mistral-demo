@@ -1,5 +1,2 @@
 mistral_inference
-# langchain
-# huggingface-hub
-# langchain_community
-# tenacity 
+huggingface-hub
