@@ -14,7 +14,7 @@ logger = setupLogger("mistral")
 
 
 def invoke(prompt):
-    start_time = time.time()  # Start the timer
+    startTime = time.time()  # Start the timer
     accessToken = os.getenv("HUGGINGFACEHUB_API_TOKEN")
     mistralModelsPath = Path.home().joinpath('mistral_models', '7B-Instruct-v0.3')  
     mistralModelsPath.mkdir(parents=True, exist_ok=True)
@@ -26,16 +26,16 @@ def invoke(prompt):
     model = Transformer.from_folder(mistralModelsPath)
 
     logger.info("preparing input")
-    completion_request = ChatCompletionRequest(messages=[UserMessage(content=prompt)])
-    tokens = tokenizer.encode_chat_completion(completion_request).tokens
+    completionRequest = ChatCompletionRequest(messages=[UserMessage(content=prompt)])
+    tokens = tokenizer.encode_chat_completion(completionRequest).tokens
 
     logger.info("generating response")
-    out_tokens, _ = generate([tokens], model, max_tokens=4096, temperature=0.0, eos_id=tokenizer.instruct_tokenizer.tokenizer.eos_id )
+    outTokens, _ = generate([tokens], model, max_tokens=4096, temperature=0.0, eos_id=tokenizer.instruct_tokenizer.tokenizer.eos_id )
 
-    result = tokenizer.instruct_tokenizer.tokenizer.decode(out_tokens[0])
+    result = tokenizer.instruct_tokenizer.tokenizer.decode(outTokens[0])
     print(result)
-    end_time = time.time()  # End the timer
-    logger.info(f"Response took {end_time - start_time:.6f} seconds to execute")
+    endTime = time.time()  # End the timer
+    logger.info(f"Response took {endTime - startTime:.6f} seconds to execute")
 
 
 
